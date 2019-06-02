@@ -1,0 +1,221 @@
+\documentclass{article}
+\title{what eves}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\usepackage{tcolorbox}
+
+\newtheorem*{theorem}{Satz 22.7}
+
+\renewcommand \qedsymbol{$\square$}
+
+\newcommand{\LL}{\mathcal{L}}
+\newcommand{\V}{\mathcal{V}}
+\newcommand{\U}{\mathcal{U}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\K}{\mathbb{K}}
+
+\newcommand{\basis}[2]{b_{#1}^{({#2})}}
+\newcommand{\basislist}[2]{\basis{{#1}}{1}, \dots , \basis{{#1}}{{#2}}}
+\newcommand{\basislistbot}[2]{\basis{1}{{#2}}, \dots , \basis{{#1}}{{#2}}}
+
+\newcommand{\lam}{\lambda}
+
+\newcommand{\flam}[1]{(f-{\lambda}id)^{{#1}}}
+
+\newcommand{\funcdown}[2]{{{#1}}_{|{#2}}\colon{#2}\to{#2}}
+
+\newcommand{\jmatrix}{
+  \begin{bmatrix}
+    \lam   & 1     & 0      & \dots & 0      \\
+    0      & \lam  & 1      & \dots & 0      \\
+    \vdots &       & \ddots &       & \vdots \\
+    0      & \dots & \dots  & \lam  & 1      \\
+    0      & \dots & \dots  & \dots & \lam
+  \end{bmatrix}}
+
+
+\DeclareMathOperator{\Kern}{Kern}
+\DeclareMathOperator{\dimension}{dim}
+\DeclareMathOperator{\lin}{lin}
+
+\begin{document}
+
+\begin{theorem}
+  Seien $\V$ ein Vektorraum, $\dim \V = n$, $ f \in \LL (\V;\V)$ und $\lambda$ eine n-fache
+  Nullstelle von der char. Polynom $P(t)$. Dann gibt es $r,k_j,q_j \in \N,
+  1 \le j \le r$ mit $\sum_{j=1}^{r}k_jq_j=n$, und eine Matrixdarstellung
+  $J(\lambda)$ von f der Form
+
+  \begin{equation*}
+    J(\lam) = 
+    \begin{bmatrix}
+      J_{q_1}(\lambda) &         &                  &                  &        &  0 \\
+                      & \ddots  &                  &                  &        & \\
+                      &         & J_{q_1}(\lambda)  &                  &        & \\
+                      &         &                  & J_{q_2}(\lambda)  &        & \\
+                      &         &                  &                  & \ddots & \\
+      0               &         &                  &                  &        & J_{q_r}(\lambda)
+    \end{bmatrix},
+  \end{equation*}
+  wobei die Jordanmatrizen $J_{q_j}(\lam)$ $k_j$-mal wiederholt werden.
+  
+\end{theorem}
+
+\begin{proof}[Beweis]
+  Nach Cayley-Hamilton gilt $\flam{n}=0 \in \LL(\V;\V)$, und somit $V_f(\lam)=V$.
+
+  Sei nun $q_1 \in \{1, .., n\}$ minimal mit der Eigenschaft $(f -
+  \lambda id)^{q_1}=0$, d.h. $(f-{\lambda}id)^{q_1-1}\ne0$.
+  Seien weiter $\U:=(f-{\lambda}id)^{q_1-1}(V)$ und $\dimension(\U) =: k_1$.
+
+  Wähle $b_1, .., b_{k_1}\in V$ sodass die Menge
+  $(f-{\lambda}id)^{q_1-1}(\{b_1, ..,b_{k_1}\})$ eine Basis von $\U$
+  bildet.
+
+  Per Konstruktion ist jedes $u \in \U \backslash \{0\}$ ein Eigenvektor zu
+  $\lambda$, denn ist $u=\sum_{i=0}^{k_1}(f-{\lambda}id)^{q_1-1}(b_i)$
+  so gilt:
+
+  \begin{align*}
+    \displaystyle
+    f(u) & = f(\sum_{i=0}^{k_1}(f-{\lambda}id)^{q_1-1}(b_i)) 
+          = \sum_{i=0}^{k_1}f((f-{\lambda}id)^{q_1-1}(b_i)) \\
+         & = \sum_{i=0}^{k_1}(f-{\lambda}id)^{q_1-1}(f(b_i)) 
+          = \sum_{i=0}^{k_1}((f-{\lambda}id)^{q_1-1} \circ
+           (f-{\lambda}id+{\lambda}id))(b_i) \\
+         & = \sum_{i=0}^{k_1}(f-{\lambda}id)^{q_1}(b_i) +
+           (f-{\lambda}id)^{q_1-1}({\lambda}b_i)
+           = \lambda \sum_{i=0}^{k_1}(f-{\lambda}id)^{q_1-1}(b_i) \\
+         & = \lambda \cdot u.
+  \end{align*}
+
+  Für $0 \le i \le q_1, 1 \le j \le k_1$ definiere
+  $b_j^{(i)}:=(f-{\lambda}id)^{q_1-i}(b_i)$. Dann ist $(b_1^{(1)}, ..,
+  b_{k_1}^{(1)})$ eine Basis von $\U$.
+
+  Für jedes $j \in \{1, \dots ,k_1\}$ sind die $q_1$ Vektoren
+  $\basis{j}{1} , \dots , \basis{j}{q_1}$ nach Satz 22.4 linear
+  unabhängig, und es gilt:
+
+  \begin{align*}
+    f(\basis{j}{i}) & = f(\flam{q_1-i}(b_j)) = \flam{q_1-i}(f(b_j)) \\
+                    & = \flam{q_1-i}(f(b_j) - \lam b_j + \lam b_j) \\
+                    & = (\flam{q_1-i} \circ (f - \lam id + \lam id))(b_j) \\
+                    & = \flam{q_1-i+1}(b_j) + (f-\lam id)(\lam b_j) \\
+                    & = \basis{j}{i-1} + \lam \basis{j}{i}.
+  \end{align*}
+
+  Mit $\U_j = \lin \{\basis{j}{1}, \dots , \basis{j}{q_1}\}, 1 \le j \le k_1$ folgt, dass
+  die Abbildung $\funcdown{f}{\U_j}$ bzgl. der Basis $\basis{j}{1}, \dots ,\basis{j}{q_1}$
+  die Matrixdarstellung $J_{q_1}(\lam)$ hat. 
+  
+  \begin{tcolorbox}
+    Erinnerung: Für $k \ge 2$ lässt sich die k-te Spalte ${A}_k$ der Matrixdarstellung ${A}$ von $\funcdown{f}{\U_j}$ wie Folgendes berechnen:
+
+    \begin{align*}
+      A_k & = (B \circ f \circ B^{-1})(e_k) 
+            = (B \circ f)(\basis{j}{k}) \\
+          & = B(\basis{j}{k-1} + \lam \basis{j}{k})
+           = B(\basis{j}{k-1}) + \lam B(\basis{j}{k}) \\
+          & = e_{k-1} + \lam e_k
+    \end{align*}
+
+    wobei $B \colon \U_j \to \U_j$ der lineare Isomormphismus ist, der die Basisvektoren
+    $\basislist{j}{q_1}$ auf die kanonischen Basisvektoren $e_1, \dots , e_{q_1}$ abbildet.
+    Für $k=1$ gilt $B(\basis{j}{0}) = B(0) = 0$ und somit $A_1 = \lam e_1$. Folglich gilt:
+    \begin{equation*}
+      A = \jmatrix = J_{q_1}(\lam).
+    \end{equation*}
+
+  \end{tcolorbox}
+
+  Weiter gilt, dass $\basis{j}{i}, 1 \le j \le k_1$ für alle $1 \le i \le q_1$ linear
+  unabhängig sind, denn sind $\mu_{j}^{(i)} \in \K$ mit
+  $0 = \sum_{i}^{q_1}\sum_{j}^{k_1}\mu_j^{(i)}\basis{j}{i} = \sum_{i,j}\mu_j^{(i)}\basis{j}{i}$
+  so folgt:
+
+  \begin{align*}
+    0 & = \flam{q_1-1}(\sum_{i,j}\mu_j^{(i)}\basis{j}{i})
+        = \sum_{i,j}\mu_j^{(i)} \flam{q_1-1}(\basis{j}{i}) \\
+      & = \sum_{i,j}\mu_j^{(i)} \flam{q_1-1}(\flam{q_1-i}(b_j))
+        = \sum_{i,j}\mu_j^{(i)} \flam{q_1-1+q_1-i}(b_j) \\
+      & = \sum_{j=1}^{k_1}\mu_j^{(q_1)} \flam{q_1-1}(b_j)
+        = \sum_{j=1}^{k_1}\mu_j^{(q_1)} \basis{j}{1}.
+  \end{align*}
+
+  Da $\basislistbot{k_1}{1}$ nach Wahl eine Basis von $\U$ bilden, folgt,
+  dass $\mu_j^{(q_1)} = 0$. Analog zeigt man, dass
+  $\mu_{j}^{(q_1-1)} = \mu_{j}^{(q_1-2)} = \dots = \mu_{j}^{(1)} = 0$.
+
+  Somit ist $V_1 := \U_1 + \U_2 + \dots + \U_{k_1}$ ein Vektorraum mit $\dim V_1 = q_1k_1$.
+  Daraus folgt, dass $\funcdown{f}{V_1}$ bzgl. der Basis
+  $(\basis{j}{i}), 1 \le i \le q_1, 1 \le j \le k_1$ eine Matrixdarstellung $A$ hat, die aus
+  $k_1$ Jordanmatrizen der From $J_{q_1}(\lam)$ besteht.
+
+  \begin{tcolorbox}
+    Also gilt:
+    \begin{align*}
+      A & =
+          \begin{bmatrix}
+            J_{q_1}(\lam) & & 0 \\
+            & \ddots & \\
+            0 & & J_{q_1}(\lam) \\
+          \end{bmatrix} \\
+        & =
+          \begin{bmatrix}
+            \jmatrix & & 0 \\
+            & \ddots & \\
+            0 & & \jmatrix
+          \end{bmatrix}
+    \end{align*}
+
+    Beachte dass, $a_{nq_1,nq_1+1}=0$ für alle $1 \le n \le k_1-1$, denn es gilt:
+    \begin{equation*}
+      f(\basis{1}{1}) = 0 + {\lam} \basis{1}{1} ,
+      f(\basis{2}{1}) = 0 + {\lam} \basis{2}{1} ,
+      \dots ,
+      f(\basis{k_1}{1}) = 0 + {\lam} \basis{k_1}{1}.
+    \end{equation*}
+
+  \end{tcolorbox}
+
+  Ist $V_1 = \V$ so folgt die Aussage des Satzes sofort. Sei also $V_1 \ne \V$. Daraus folgt $q_1 \ge 2$.
+
+  \begin{tcolorbox}
+    Ist $q_1 = 1$, so folgt:
+    \begin{align*}
+      V_1 &= \U_1 + \U_2 + \dots + \U_{k_1} = \lin \{\basis{1}{1}\} + \lin \{\basis{2}{1}\} + \dots + \lin \{\basis{k_1}{1}\} \\
+          &= \lin \{\basis{1}{1}, \dots , \basis{k_1}{1}\} = \U = \V
+    \end{align*}
+
+    da $\flam{q_1-1} = \flam{0} = Id \in \LL(\V;\V) \implies \U = Id(\V) = \V$.
+    Also muss $q_1 \ge 2$ gelten, wenn $V_1 \ne \V$.
+  \end{tcolorbox}
+
+  Folglich gilt für $l+1 \le i \le q_1, 1 \le j \le k_1$, dass die Vektoren $\flam{l}(\basis{j}{i})$ eine Basis
+  von $\flam{l}(V_1)$ bilden, denn es gilt:
+
+  \begin{align*}
+    \flam{l}(\basis{j}{i}) &= \flam{l}(\flam{q_1-i}(b_j)) \\
+                           &= \flam{q_1+l-i}(b_j) \\
+                           &= \basis{j}{i-l}
+  \end{align*}
+
+  und
+
+  \begin{align*}
+    \flam{l}(V_1) &= \lin \{\flam{l}(\basis{j}{i}) \mid 1 \le i \le q_1, 1 \le j \le k_1\} \\
+                  &= \lin \{\flam{l}(\basis{j}{i}) \mid l+1 \le i \le q_1, 1 \le j \le k_1\} \\
+  \end{align*}
+
+  d.h. die Vektoren sind linear unabhängig und ein Erzeugendensystem von $\flam{l}(V_1)$.
+
+\end{proof}
+
+This proof is obviously not done, contributions are welcome at
+\url{https://github.com/nullp0tr/lina2}.
+\end{document}
