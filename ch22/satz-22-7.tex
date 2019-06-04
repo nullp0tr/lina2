@@ -10,6 +10,8 @@
 
 \newtheorem*{theorem}{Satz 22.7}
 
+\newtheorem*{example}{Beispiel}
+
 \renewcommand \qedsymbol{$\square$}
 
 \newcommand{\LL}{\mathcal{L}}
@@ -17,6 +19,7 @@
 \newcommand{\U}{\mathcal{U}}
 \newcommand{\N}{\mathbb{N}}
 \newcommand{\K}{\mathbb{K}}
+\newcommand{\M}{\mathbb{M}}
 
 \newcommand{\basis}[2]{b_{#1}^{({#2})}}
 \newcommand{\basislist}[2]{\basis{{#1}}{1}, \dots , \basis{{#1}}{{#2}}}
@@ -27,6 +30,8 @@
 \newcommand{\flam}[1]{(f-{\lambda}id)^{{#1}}}
 
 \newcommand{\funcdown}[2]{{{#1}}_{|{#2}}\colon{#2}\to{#2}}
+
+\newcommand{\betw}[3]{{#1} \le {#2} \le {#3}}
 
 \newcommand{\jmatrix}{
   \begin{bmatrix}
@@ -39,6 +44,7 @@
 
 
 \DeclareMathOperator{\Kern}{Kern}
+\DeclareMathOperator{\Bild}{Bild}
 \DeclareMathOperator{\dimension}{dim}
 \DeclareMathOperator{\lin}{lin}
 
@@ -196,7 +202,7 @@
     Also muss $q_1 \ge 2$ gelten, wenn $V_1 \ne \V$.
   \end{tcolorbox}
 
-  Folglich gilt für $l+1 \le i \le q_1, 1 \le j \le k_1$, dass die Vektoren $\flam{l}(\basis{j}{i})$ eine Basis
+  Weiter gilt für $l+1 \le i \le q_1, 1 \le j \le k_1$, dass die Vektoren $\flam{l}(\basis{j}{i})$ eine Basis
   von $\flam{l}(V_1)$ bilden, denn es gilt:
 
   \begin{align*}
@@ -207,15 +213,154 @@
 
   und
 
-  \begin{align*}
+  \begin{align}
     \flam{l}(V_1) &= \lin \{\flam{l}(\basis{j}{i}) \mid 1 \le i \le q_1, 1 \le j \le k_1\} \\
-                  &= \lin \{\flam{l}(\basis{j}{i}) \mid l+1 \le i \le q_1, 1 \le j \le k_1\} \\
-  \end{align*}
+                  &= \lin \{\flam{l}(\basis{j}{i}) \mid l+1 \le i \le q_1, 1 \le j \le k_1\}
+  \end{align}
 
   d.h. die Vektoren sind linear unabhängig und ein Erzeugendensystem von $\flam{l}(V_1)$.
 
+  
+  Es gilt:
+  \begin{align*}
+    \flam{q_1-1}(V_1) &= \lin \{ \flam{q_1-1}(\basis{j}{i}) \mid 1 \le j \le k_1, 1 \le i \le q_1 \} \\
+                      &\supseteq \lin \{ \flam{q_1-1}(\basis{j}{1}) \mid 1 \le j \le k_1\} = \U \\
+                      &= \flam{q_1-1}(\V)
+  \end{align*}
+  und somit $V_1 \subset \V \implies \flam{q_1-1}(V_1) = \flam{q_1-1}(\V)$. Also existiert ein
+  $q_2 \in \N$ mit $1 \le q_2 \le q_1-1$ und $\flam{q_2}(V_1) = \flam{q_2}(\V)$.
+  Mit (1) und (2) folgt, dass $\flam{q_2-1}(\basis{j}{i})$ für
+  $q_2 \le 1 \le q_1$, $1 \le i \le k_1$ eine Basis von $\flam{q_2-1}(V_1)$ ist.
+
+
+  Betrachte nun die Abbildung:
+
+  \begin{equation}
+    \flam{} \colon \flam{q_2-1}(\V) \to \flam{q_2}(\V) = \flam{q_2}(V_1)
+  \end{equation}
+
+  Wegen $\V \neq V_1$ existeren $v \in \Kern \flam{}$ mit $v \in \V \backslash V_1$.
+  Ergänze nun die Basis $\flam{q_2-1}(\basis{j}{i})$ von $\flam{q_2-1}(V_1)$ mit solchen
+  Vektoren aus dem Kern der Abbildung zu einer Basis von $\flam{q_2-1}(\V)$.
+  Seien dies die Vektoren $\flam{q_2-1}(b_{k_1+j}), 1 \le j \le k_2$.
+
+  Diese Vektoren sind dann Eigenvektoren von $f$ und wie vorher definiere:
+
+  \begin{equation*}
+    \basis{k_1+j}{i} := \flam{q_2-i}(b_{k_1+j}), 0 \le i \le q_2, 1 \le j \le k2
+  \end{equation*}
+
+  \begin{tcolorbox}
+  Dann gilt $\basis{k_1+j}{0} = \flam{q_2}(b_{k_1+j}) = 0$, da
+  \begin{equation*}    
+    \flam{q_2-1}(b_{k_1+j}) \in \Kern \flam{} \implies \flam{q_2}(b_{k_1+j}) = 0.
+  \end{equation*}
+  \end{tcolorbox}
+  
+  Sei $V_2 = \lin \{\basis{k_2+j}{i} \colon 1 \le i \le q2, 1 \le j \le k_2\}$. Dann folgt wie
+  zuvor $\dim V_2 = k_2q_2$, und $\funcdown{f}{V_2}$ hat bzgl. der Basis $\basis{k_1+j}{i},
+  1 \le i \le q_2, 1 \le j \le k_2$, eine Matrixdarstellung bestehend aus $k_2$ Jordanmatrizen
+  der Form $J_{q_2}(\lam)$.
+
+  Nun zeigen wir, dass die Vektoren
+  \begin{equation}
+    \basis{j}{i}, \betw{1}{i}{q_1}, \betw{1}{j}{k_1}, \space
+    \basis{k_1+j}{i}, \betw{1}{i}{q_2}, \betw{1}{j}{k_2}
+  \end{equation}
+  linear unabängig sind und somit eine Basis von $V_1 \oplus V_2$. Dazu sei
+  $0 = \sum_{i,j} \mu_{j}^{(i)}\basis{j}{i} + \sum_{i,j} \mu_{k_1+j}^{(i)}\basis{k_1+j}{i}$.
+  Dann ist
+
+  \begin{align*}
+    0 &= \sum_{i,j} \mu_{j}^{(i)}\flam{q_2-1}(\basis{j}{i}) + \sum_{i,j} \mu_{k_1+j}^{(i)}\flam{q_2-1}(\basis{k_1+j}{i}) \\
+      &= \sum_{i=1}^{q_1}\sum_{j=1}^{k_1} \mu_{j}^{(i)}\flam{q_2-1}(\basis{j}{i}) + \sum_{i,j} \mu_{k_1+j}^{(i)}\flam{q_2-1+q_2-i}(b_{k_1+j}) \\
+      &= \sum_{i=q_2}^{q_1}\sum_{j=1}^{k_1} \mu_{j}^{(i)}\flam{q_2-1}(\basis{j}{i}) + \sum_{i,j} \mu_{k_1+j}^{(i)}\flam{q_2-1+q_2-i}(b_{k_1+j}) \\
+      &= \sum_{i=q_2}^{q_1}\sum_{j=1}^{k_1} \mu_{j}^{(i)}\flam{q_2-1}(\basis{j}{i}) + \sum_{j=1}^{k_2} \mu_{k_1+j}^{(q_2)}\flam{q_2-1}(b_{k_1+j})
+  \end{align*}
+
+  Die in den Summer verbliebenen Vektoren bilden eine Basis von $\flam{q_2-1}(\V)$ und somit ist
+  $\mu_{j}^{(i)}=0, \betw{q_2}{i}{q_1}, \betw{1}{j}{k_1}$ und $\mu_{k_1+j}^{(q_2)}=0, \betw{1}{j}{k_2}$. Somit ist also
+  $0 = \sum_{i=1}^{q_2-1}\sum_{j=1}^{k_1}\mu_{j}^{(i)}\basis{j}{i}
+  + \sum_{i=1}^{q_2-1}\sum_{j=1}^{k_2}\mu_{k_1+j}^{(i)}\basis{k_1+j}{i}$ und Anwendung von
+  $\flam{q_2-2}$ auf diese Identität liefert als nächstes $\mu_{q_2-1} = 0, \betw{1}{j}{k_1},
+  \mu_{k_1+j}^{q_2-1}=0, \betw{1}{j}{k_2}$, usw.
+
+  Also hat $\funcdown{f}{V_1 \oplus V_2}$ bzgl. der Basis von (4) eine Matrixdarstellung
+  bestehend aus $k_1$ Jordanmatrizen der Form $J_{q_1}(\lam)$ und $k_2$ Jordanmatrizen der Form
+  $J_{q_2}(\lam)$.
+
+  Gilt $\V = V_1 \oplus V_2$ so folgt die Aussage des Satzes sofort. Ansonsten sei $q_3 \le q_2-1$ minimal mit $\flam{q_3}(V_1 \oplus V_2) = \flam{q_3}(\V)$ und wie oben definiere
+  einen Unterraum $V_3$ usw.
+  
 \end{proof}
 
-This proof is obviously not done, contributions are welcome at
-\url{https://github.com/nullp0tr/lina2}.
+
+\begin{example}
+  Sei $A \in \M (3,3;\K)$ mit:
+  \begin{equation*}
+    A =
+    \begin{bmatrix}
+      1  & 1 & 0 \\
+      -1 & 3 & 0 \\
+      0  & 0 & 2 
+    \end{bmatrix}
+  \end{equation*}
+
+  Dann gilt $P_A(t)=(t-2)^3$, und somit ist $\lam = 2$ ein Eigenwert von $A$. Es gilt, dass
+  $q_1 = 2$ minimal mit $(A-\lam E)^{q_1}=0$ ist. Setze $\U := (A - \lam E)^{q_1-1}(\K^3)$ und
+  $k_1 := \dim \U$. Daraus folgt $\U = (A - \lam E)^1(\K^3)$. Wir wissen:
+
+  \begin{equation*}
+    (A - \lam E) =
+    \begin{bmatrix}
+      -1 & 1 & 0 \\
+      -1 & 1 & 0 \\
+      0  & 0 & 0 
+    \end{bmatrix}.
+  \end{equation*}
+
+  Also gilt:
+  \begin{equation*}
+    \U = \lin \{
+    \begin{bmatrix}
+      1 \\
+      1 \\
+      0  
+    \end{bmatrix}
+    \},
+  \end{equation*}
+
+  und $k_1 = 1$. Sei $b_1 = (1, 2, 0)^T$, dann ist $(A-2E)^{q_2-1}(1, 2, 0)^T = (1, 1, 0)^T$
+  eine Basis von $\U$.
+  Daraus folgt:
+
+  \begin{align*}
+    V_1 = \U_1 &= \lin \{\basis{1}{1}, \basis{1}{2}\} \\
+               &= \lin \{ (A-2E)^{q_1-1}(1,2,0)^T, (A-2E)^{q_1-2}(1,2,0)^T\} \\ 
+               &= \lin \{(1, 1, 0)^T, (1, 2, 0)^T\}.
+  \end{align*}
+
+  Also gilt $\dim V_1 = k_1q_1 = 1 \cdot 2 = 2$.
+
+  Weiter ist $q_2 = 1$ minimal mit $(A-2E)^{q_2}(V_1) = (A-2E)^{q_2}(\V)$ und $q_2 \le q_1-1$,
+  und es gilt $(A-2E)^{q_2-1}(V_1) = V_1$. Ergänzen wir nun die Basis von $V_1$ mit dem Vektor
+  $v := (0, 0, 1)^T \in Kern (A-2E), v \in \V \backslash V_1$ dann bekommen wir eine Basis
+  von $(A-2E)^{q_2-1}(\V)=\V$. Also ist $V_2 = \lin \{(0, 0, 1)^T\}$. Dann gilt
+  $\V = V_1 \oplus V_2$, und somit hat $A$ die konjugierte Matrix C mit einer $J_{q_1}(2)$ und
+  einer $J_{q_2}(2)$. Also:
+
+  \begin{equation*}
+    C =
+    \begin{bmatrix}
+      2 & 1 & 0 \\
+      0 & 2 & 0 \\
+      0 & 0 & 2 
+    \end{bmatrix}
+  \end{equation*}  
+  
+\end{example}
+This proof was taken from the notes of Prof. Henk at the TU-Berlin. If you find any errors
+or would like more explaination to some parts please create an issue at
+\url{https://github.com/nullp0tr/lina2} or contact me through
+\href{mailto:nullp0tr@gmail.com}{nullp0tr@gmail.com}. 
 \end{document}
